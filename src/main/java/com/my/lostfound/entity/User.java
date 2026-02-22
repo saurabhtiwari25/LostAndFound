@@ -2,6 +2,7 @@ package com.my.lostfound.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -16,24 +17,38 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Changed from 'username' to 'name' to match your Service and DTOs
     @Column(nullable = false, length = 50)
     private String name;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 100)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 255)
     private String password;
 
+    @Column(nullable = false, length = 20)
     private String role = "USER";
 
-    private boolean active = true;
+    // Soft delete
+    @Column(nullable = false)
+    private boolean deleted = false;
 
+    // Created time
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    // Updated time
+    @Column(nullable = false)
+    private LocalDateTime updatedAt;
 
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
     }
 }

@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto login(LoginRequestDto dto) {
         // Using email as the 'username' for the lookup
-        User user = userRepository.findByEmail(dto.getUsername())
+        User user = userRepository.findByEmail(dto.getEmail())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         if (!user.getPassword().equals(dto.getPassword())) {

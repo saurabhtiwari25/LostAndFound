@@ -9,7 +9,7 @@ public class LostFoundSystemApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(LostFoundSystemApplication.class, args);
 
-		System.out.println("🚀 Lost & Found System Started Successfully!");
+		System.out.println(" Lost & Found System Started Successfully!");
 	}
 
 }

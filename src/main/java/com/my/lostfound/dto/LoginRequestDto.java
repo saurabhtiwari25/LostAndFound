@@ -1,5 +1,6 @@
 package com.my.lostfound.dto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 import lombok.*;
@@ -11,7 +12,8 @@ import lombok.*;
 public class LoginRequestDto {
 
     @NotBlank(message = "Username cannot be empty")
-    private String username;
+    @Email(message = "Invalid email format")
+    private String email;//or username
 
     @NotBlank(message = "Password cannot be empty")
     private String password;

@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
 
     // ✅ Handle Validation Errors
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationErrors(
+    public ResponseEntity<ApiResponse<Map<String, String>>> handleValidationErrors(
             MethodArgumentNotValidException ex
     ) {
 
@@ -60,7 +60,14 @@ public class GlobalExceptionHandler {
                         )
                 );
 
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        ApiResponse<Map<String, String>> response =
+                new ApiResponse<>(
+                        false,
+                        "Validation Failed",
+                        errors
+                );
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
 

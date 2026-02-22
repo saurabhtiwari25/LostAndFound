@@ -1,7 +1,5 @@
 package com.my.lostfound.repository;
 
-
-
 import com.my.lostfound.entity.Item;
 
 import org.springframework.data.domain.Page;
