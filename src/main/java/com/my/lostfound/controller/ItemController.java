@@ -29,7 +29,7 @@ public class ItemController {
         return ResponseEntity.ok(response);
     }
 
-    //  Get All Items - Returns the Page object directly
+    //  Get All Items - Returns the Page object directly ....get all
     @GetMapping
     public ResponseEntity<Page<ItemResponseDto>> getAllItems(
             @RequestParam(defaultValue = "0") int page,
