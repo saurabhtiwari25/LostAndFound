@@ -11,7 +11,6 @@ public class LostFoundSystemApplication {
 
 		System.out.println(" Lost & Found System Started Successfully!");
 	}
-
 }
 
 

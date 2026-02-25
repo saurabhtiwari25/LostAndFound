@@ -4,6 +4,7 @@ import com.my.lostfound.dto.LoginRequestDto;
 import com.my.lostfound.dto.UserRequestDto;
 import com.my.lostfound.dto.UserResponseDto;
 import com.my.lostfound.entity.User;
+import com.my.lostfound.exception.BadRequestException;
 import com.my.lostfound.exception.ResourceNotFoundException;
 import com.my.lostfound.repository.UserRepository;
 import com.my.lostfound.service.UserService;
@@ -19,13 +20,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto register(UserRequestDto dto) {
         if (userRepository.existsByEmail(dto.getEmail())) {
-            throw new RuntimeException("Email already exists");
+            throw new BadRequestException("Email already exists");
         }
 
         User user = new User();
         user.setName(dto.getName());
         user.setEmail(dto.getEmail());
-        user.setPassword(dto.getPassword());
+        user.setPassword(dto.getPassword()); // Ideally hash password here
 
         User savedUser = userRepository.save(user);
         return mapToResponseDto(savedUser);
@@ -33,12 +34,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto login(LoginRequestDto dto) {
-        // Using email as the 'username' for the lookup
         User user = userRepository.findByEmail(dto.getEmail())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
+
+
         if (!user.getPassword().equals(dto.getPassword())) {
-            throw new RuntimeException("Invalid password");
+            throw new BadRequestException("Invalid password");
         }
 
         return mapToResponseDto(user);
@@ -48,6 +50,9 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto getUserById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
+
+
+
         return mapToResponseDto(user);
     }
 

@@ -8,7 +8,6 @@ import java.util.Optional;
 
 /**
  * User Repository
- *
  * Handles database operations for User entity.
  */
 @Repository

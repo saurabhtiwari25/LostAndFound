@@ -10,24 +10,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
-/**
- * Utility class for saving uploaded files
- */
 @Component
 public class FileUploadUtil {
 
-    // Directory where files will be saved
-    private final String uploadDir = System.getProperty("user.dir") + "/uploads";
+    //  Use the same upload directory
+    private final String uploadDir = Paths.get(System.getProperty("user.dir"), "uploads").toString();
 
-    /**
-     * Save a file and return its relative path
-     *
-     * @param file MultipartFile from request
-     * @return relative path of saved file
-     */
     public String saveFile(MultipartFile file) {
 
-        // Create directory if it does not exist
+        // Create folder if it doesn't exist
         File dir = new File(uploadDir);
         if (!dir.exists()) {
             dir.mkdirs();
@@ -41,18 +32,15 @@ public class FileUploadUtil {
         }
         String uniqueFilename = UUID.randomUUID().toString() + extension;
 
-        // Path to save
         Path filePath = Paths.get(uploadDir, uniqueFilename);
 
         try {
-            // Save file to disk
             Files.write(filePath, file.getBytes());
         } catch (IOException e) {
             throw new RuntimeException("Failed to store file " + uniqueFilename, e);
         }
 
-        // Return relative path for DB storage
+        // Return relative path for DB (optional)
         return "/uploads/" + uniqueFilename;
     }
-
 }

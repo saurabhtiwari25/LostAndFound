@@ -1,92 +1,46 @@
 package com.my.lostfound.exception;
 
-import com.my.lostfound.payload.ApiResponse;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Handles all exceptions globally
- */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // ✅ Handle Resource Not Found
+    // 1. Handles 404 - Not Found
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ApiResponse<Object>> handleNotFound(
-            ResourceNotFoundException ex
-    ) {
+    public ResponseEntity<Map<String, Object>> handleNotFound(ResourceNotFoundException ex) {
+        Map<String, Object> errorBody = new HashMap<>();
+        errorBody.put("timestamp", LocalDateTime.now());
+        errorBody.put("status", 404);
+        errorBody.put("message", ex.getMessage());
 
-        ApiResponse<Object> response =
-                new ApiResponse<>(false, ex.getMessage(), null);
-
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(errorBody, HttpStatus.NOT_FOUND);
     }
 
-
-    // ✅ Handle Bad Request
+    // 2. Handles 400 - Bad Request (Validation errors, etc.)
     @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<ApiResponse<Object>> handleBadRequest(
-            BadRequestException ex
-    ) {
+    public ResponseEntity<Map<String, Object>> handleBadRequest(BadRequestException ex) {
+        Map<String, Object> errorBody = new HashMap<>();
+        errorBody.put("timestamp", LocalDateTime.now());
+        errorBody.put("status", 400);
+        errorBody.put("message", ex.getMessage());
 
-        ApiResponse<Object> response =
-                new ApiResponse<>(false, ex.getMessage(), null);
-
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorBody, HttpStatus.BAD_REQUEST);
     }
 
-
-    // ✅ Handle Validation Errors
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiResponse<Map<String, String>>> handleValidationErrors(
-            MethodArgumentNotValidException ex
-    ) {
-
-        Map<String, String> errors = new HashMap<>();
-
-        ex.getBindingResult()
-                .getFieldErrors()
-                .forEach(error ->
-                        errors.put(
-                                error.getField(),
-                                error.getDefaultMessage()
-                        )
-                );
-
-        ApiResponse<Map<String, String>> response =
-                new ApiResponse<>(
-                        false,
-                        "Validation Failed",
-                        errors
-                );
-
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
-
-
-    // ✅ Handle All Other Exceptions
+    // 3. Handles 500 - General Server Errors
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<Object>> handleGlobalException(
-            Exception ex
-    ) {
+    public ResponseEntity<Map<String, Object>> handleGeneralError(Exception ex) {
+        Map<String, Object> errorBody = new HashMap<>();
+        errorBody.put("timestamp", LocalDateTime.now());
+        errorBody.put("message", "An unexpected error occurred: " + ex.getMessage());
 
-        ApiResponse<Object> response =
-                new ApiResponse<>(
-                        false,
-                        "Internal Server Error",
-                        null
-                );
-
-        return new ResponseEntity<>(
-                response,
-                HttpStatus.INTERNAL_SERVER_ERROR
-        );
+        return new ResponseEntity<>(errorBody, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

@@ -1,8 +1,6 @@
 package com.my.lostfound.dto;
 
-
 import lombok.*;
-
 import java.time.LocalDateTime;
 
 @Data
@@ -25,4 +23,5 @@ public class ItemResponseDto {
 
     private LocalDateTime createdAt;
 
+    private LocalDateTime updatedAt; // added updatedAt for full info
 }
