@@ -15,12 +15,7 @@ public interface ItemService {
     ItemResponseDto createItem(ItemRequestDto dto);
 
     // Get All (Pagination + Sorting)
-    Page<ItemResponseDto> getAllItems(
-            int page,
-            int size,
-            String sortBy,
-            String direction
-    );
+    Page<ItemResponseDto> getAllItems(int page, int size);
 
     // Get By ID
     ItemResponseDto getItemById(Long id);

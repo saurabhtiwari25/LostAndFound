@@ -50,9 +50,6 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto getUserById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
-
-
-
         return mapToResponseDto(user);
     }
 

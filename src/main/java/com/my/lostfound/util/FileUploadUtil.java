@@ -13,34 +13,48 @@ import java.util.UUID;
 @Component
 public class FileUploadUtil {
 
-    //  Use the same upload directory
-    private final String uploadDir = Paths.get(System.getProperty("user.dir"), "uploads").toString();
+    private final String uploadDir =
+            Paths.get(System.getProperty("user.dir"), "uploads").toString();
 
     public String saveFile(MultipartFile file) {
 
-        // Create folder if it doesn't exist
+        if (file.isEmpty()) {
+            throw new RuntimeException("Cannot upload empty file");
+        }
+
+        String contentType = file.getContentType();
+
+        if (contentType == null || !contentType.startsWith("image/")) {
+            throw new RuntimeException("Only image files are allowed");
+        }
+
+        // Create folder if not exists
         File dir = new File(uploadDir);
+
         if (!dir.exists()) {
             dir.mkdirs();
         }
 
-        // Generate unique filename
+        // Get extension
         String originalFilename = file.getOriginalFilename();
         String extension = "";
+
         if (originalFilename != null && originalFilename.contains(".")) {
-            extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+            extension = originalFilename.substring(
+                    originalFilename.lastIndexOf("."));
         }
-        String uniqueFilename = UUID.randomUUID().toString() + extension;
+
+        // Generate unique name
+        String uniqueFilename = UUID.randomUUID() + extension;
 
         Path filePath = Paths.get(uploadDir, uniqueFilename);
 
         try {
-            Files.write(filePath, file.getBytes());
+            Files.copy(file.getInputStream(), filePath);
         } catch (IOException e) {
             throw new RuntimeException("Failed to store file " + uniqueFilename, e);
         }
 
-        // Return relative path for DB (optional)
         return "/uploads/" + uniqueFilename;
     }
 }

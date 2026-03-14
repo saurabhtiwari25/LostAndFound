@@ -16,9 +16,6 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     // Get single item by ID if not deleted
     Optional<Item> findByIdAndDeletedFalse(Long id);
 
-    // Get all non-deleted items (no pagination)
-    List<Item> findByDeletedFalse();
-
     // Search non-deleted items by title (case-insensitive)
     List<Item> findByTitleContainingIgnoreCaseAndDeletedFalse(String keyword);
 

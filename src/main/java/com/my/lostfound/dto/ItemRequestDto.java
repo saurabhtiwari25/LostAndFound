@@ -1,11 +1,10 @@
 package com.my.lostfound.dto;
 
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 import lombok.*;
-
+//  frontend se aega ye
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

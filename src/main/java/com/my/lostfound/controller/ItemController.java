@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/items")
 public class ItemController {
@@ -33,12 +35,13 @@ public class ItemController {
     @GetMapping
     public ResponseEntity<Page<ItemResponseDto>> getAllItems(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size,
-            @RequestParam(defaultValue = "id") String sortBy,
-            @RequestParam(defaultValue = "desc") String direction) {
+            @RequestParam(defaultValue = "5") int size) {
 
         log.info("Fetching all items");
-        Page<ItemResponseDto> items = itemService.getAllItems(page, size, sortBy, direction);
+
+        Page<ItemResponseDto> items =
+                itemService.getAllItems(page, size);
+
         return ResponseEntity.ok(items);
     }
 
@@ -71,20 +74,28 @@ public class ItemController {
 
     //  Search By Title
     @GetMapping("/search")
-    public ResponseEntity<Object> searchByTitle(@RequestParam String keyword) {
+    public ResponseEntity<List<ItemResponseDto>> searchByTitle(
+            @RequestParam String keyword) {
+
         log.info("Searching items: {}", keyword);
-        Object result = itemService.searchByTitle(keyword);
+
+        List<ItemResponseDto> result =
+                itemService.searchByTitle(keyword);
+
         return ResponseEntity.ok(result);
     }
 
     //  Filter By Location + Status
     @GetMapping("/filter")
-    public ResponseEntity<Object> filterItems(
+    public ResponseEntity<List<ItemResponseDto>> filterItems(
             @RequestParam String location,
             @RequestParam boolean found) {
 
         log.info("Filtering items");
-        Object result = itemService.filterItems(location, found);
+
+        List<ItemResponseDto> result =
+                itemService.filterItems(location, found);
+
         return ResponseEntity.ok(result);
     }
 
