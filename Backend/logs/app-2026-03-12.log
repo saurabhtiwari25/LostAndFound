@@ -1,0 +1,14 @@
+2026-03-12 00:29:29 [http-nio-8080-exec-7] INFO  c.m.l.controller.ItemController - Fetching all items
+2026-03-12 00:29:29 [http-nio-8080-exec-7] INFO  c.m.l.service.impl.ItemServiceImpl - Fetching items page 0
+2026-03-12 00:29:29 [http-nio-8080-exec-10] INFO  c.m.l.controller.ItemController - Fetching all items
+2026-03-12 00:29:29 [http-nio-8080-exec-10] INFO  c.m.l.service.impl.ItemServiceImpl - Fetching items page 0
+2026-03-12 00:36:25 [http-nio-8080-exec-9] INFO  c.m.l.controller.ItemController - Fetching all items
+2026-03-12 00:36:25 [http-nio-8080-exec-9] INFO  c.m.l.service.impl.ItemServiceImpl - Fetching items page 0
+2026-03-12 00:36:25 [http-nio-8080-exec-6] INFO  c.m.l.controller.ItemController - Fetching all items
+2026-03-12 00:36:25 [http-nio-8080-exec-6] INFO  c.m.l.service.impl.ItemServiceImpl - Fetching items page 0
+2026-03-12 00:36:29 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=51m36s881ms408µs900ns).
+2026-03-12 00:57:07 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-03-12 00:57:07 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-03-12 00:57:07 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-12 00:57:07 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-03-12 00:57:07 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
